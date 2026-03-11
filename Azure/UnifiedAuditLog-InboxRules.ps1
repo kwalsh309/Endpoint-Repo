@@ -1,6 +1,10 @@
+Connect-ExchangeOnline
+
+#It's required to authenticate to your tenant
+
 $start = (Get-Date).AddDays(-30)
 $end = (Get-Date).AddDays(1)
-$user = "alexandra.koontz@pointpark.edu"
+$user = "username@pointpark.edu"
 $report = @()
 
 $audit = Search-UnifiedAuditLog -UserIds $user -StartDate $start -EndDate $end | Where-Object {$_.Operations -eq "New-InboxRule" -or $_.Operations -eq "UpdateInboxRules"}
