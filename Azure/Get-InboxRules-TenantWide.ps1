@@ -1,3 +1,7 @@
+Connect-ExchangeOnline
+
+#It's required to authenticate to your tenant
+
 $mailboxes = Get-Mailbox -ResultSize Unlimited
 
 #Used this to iterate through specific mailboxes in original use-case
