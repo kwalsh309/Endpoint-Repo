@@ -1,21 +1,21 @@
-#$mailboxes = Get-Mailbox -ResultSize Unlimited
+$mailboxes = Get-Mailbox -ResultSize Unlimited
 
-$changedmailboxes = @('garusse@pointpark.edu','mylie.uebelacker@pointpark.edu','georgia.harvey@pointpark.edu','skyler.gaudio@pointpark.edu','dustana.roberts@pointpark.edu','ejcarte@pointpark.edu','shanequaw.scott@pointpark.edu','aberg@pointpark.edu','gabrielle.johnson@pointpark.edu','mihawke@pointpark.edu','jackson.muller@pointpark.edu','kordell.booth@pointpark.edu','collin.reeder@pointpark.edu')
-$mailboxes = @()
+#Used this to iterate through specific mailboxes in original use-case
+#$mailboxes = @()
 
-foreach ($changedmailbox in $changedmailboxes)
-{
-    $mb = Get-Mailbox $changedmailbox
-    $mailboxes += $mb
-}
+#foreach ($changedmailbox in $changedmailboxes)
+#{
+#    $mb = Get-Mailbox $changedmailbox
+#    $mailboxes += $mb
+#}
 
 #Commenting this in/out with above line for testing against a single mailbox prior to every mailbox
-#$mailboxes = Get-Mailbox "alexandra.koontz@pointpark.edu"
+#$mailboxes = Get-Mailbox "username@pointpark.edu"
 
 $report = @()
 foreach ($mailbox in $mailboxes)
 {
-    $rules = Get-InboxRule -Mailbox $mailbox.PrimarySmtpAddress -IncludeHidden | Where-Object {$_.Description -match 'noreply-easypath@ecsi.net'}
+    $rules = Get-InboxRule -Mailbox $mailbox.PrimarySmtpAddress -IncludeHidden | Where-Object {$_.Description -match 'noreply-easypath@ecsi.net'} #Matches against known bad inbox rule
     foreach ($rule in $rules)
     {
         $ruleDetails = [PSCustomObject] @{
@@ -31,4 +31,4 @@ foreach ($mailbox in $mailboxes)
     }
 }
 
-$report | Export-Csv -Path "C:\Users\kwalsh1\Desktop\InboxRules-ECSI.csv" -NoTypeInformation
+$report | Export-Csv -Path "C:\Users\kwalsh1\Desktop\InboxRules-ECSI.csv" -NoTypeInformation #Path should be modified to fit use-case
