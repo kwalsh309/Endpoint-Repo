@@ -1,4 +1,4 @@
-Connect-ExchangeOnline
+Connect-ExchangeOnline -UserPrincipalName ha-kwalsh@pointpark.edu
 
 #It's required to authenticate to your tenant
 
@@ -7,7 +7,7 @@ $end = (Get-Date).AddDays(1)
 $user = "username@pointpark.edu"
 $report = @()
 
-$audit = Search-UnifiedAuditLog -UserIds $user -StartDate $start -EndDate $end | Where-Object {$_.Operations -eq "New-InboxRule" -or $_.Operations -eq "UpdateInboxRules"}
+$audit = Search-UnifiedAuditLog -UserIds $user -StartDate $start -EndDate $end -SessionCommand ReturnLargeSet -RecordType ExchangeAdmin # Can also run switches like -Operations "New-InboxRule","UpdateInboxRules" or pipe in | Where-Object {$_.Operations -eq "New-InboxRule" -or $_.Operations -eq "UpdateInboxRules"}
 
 foreach ($auditlog in $audit)
 {
